@@ -16,7 +16,7 @@ mongoose.connect(keys.mongoURI);
 
 const app = express();
 
-
+//use = middleware for all routes
 app.use(
     cookieSession({
         //30 days in milliseconds
