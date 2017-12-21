@@ -28,7 +28,8 @@ passport.use(
     new GoogleStrategy({
         clientID: keys.googleClientID,
         clientSecret: keys.googleClientSecret,
-        callbackURL: '/auth/google/callback'
+        callbackURL: '/auth/google/callback',
+        proxy: true
 
         //access token tells Google that the user allowed app to get user's data
         //refresh token refreshes/updates the time period access token is valid
