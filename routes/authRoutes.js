@@ -17,7 +17,10 @@ module.exports = (app) => {
     //GoogleStrategy will see there is a code for access
     //returns tokens and scope data from Google
     app.get('/auth/google/callback',
-        passport.authenticate('google')
+        passport.authenticate('google'),
+        (req, res) => {
+            res.redirect('/surveys')
+        }
     );
 
     app.get("/api/current_user", (req, res) => {
@@ -28,7 +31,7 @@ module.exports = (app) => {
     app.get('/api/logout', (req, res) => {
         //logout function from passport, kills cookie
         req.logout();
-        res.send(req.user);
+        res.redirect('/')
     });
 
 };

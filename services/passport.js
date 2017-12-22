@@ -11,7 +11,7 @@ var db = require('../models');
 
 //contain id 
 passport.serializeUser((user, done) => {
-    done( null, user.id );
+    done(null, user.id);
 });
 
 //pull user id 
@@ -33,21 +33,19 @@ passport.use(
 
         //access token tells Google that the user allowed app to get user's data
         //refresh token refreshes/updates the time period access token is valid
-    }, (accessToken, refreshToken, profile, done) => {
-        db.User.findOne({ googleId: profile.id })
-            .then((existingUser) => {
-                if (existingUser) {
-                    done(null, existingUser);
-                } else {
-                    //instance of user
-                    new db.User({ googleId: profile.id }).save()
-                        .then((user) => {
-                            done(null, user)
-                        });
-                }
-            });
-        //console.log('accessToken', accessToken);
-        //console.log('refreshToken', refreshToken);
-        //console.log('profile', profile);
-    })
+    },
+        async (accessToken, refreshToken, profile, done) => {
+            const existingUser = await db.User.findOne({ googleId: profile.id })
+
+            if (existingUser) {
+               return done(null, existingUser);
+            } 
+                //instance of user
+                const user = await new db.User({ googleId: profile.id }).save()
+                        done(null, user)
+
+            //console.log('accessToken', accessToken);
+            //console.log('refreshToken', refreshToken);
+            //console.log('profile', profile);
+        })
 );
